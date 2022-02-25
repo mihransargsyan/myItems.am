@@ -33,7 +33,7 @@ public class ItemManager {
 
     public List<Item> getAllItems() {
         List<Item> items = new ArrayList<>();
-        String sql = "SELECT * FROM item";
+        String sql = "select * from item  order by id desc limit 20;";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery();
@@ -77,9 +77,10 @@ public class ItemManager {
 
     public List<Item> getAllItemsByCategoryId(int id) {
         List<Item> items = new ArrayList<>();
-        String sql = "SELECT * FROM item WHERE category_id =" + id;
+        String sql = "SELECT * FROM item  WHERE category_id = ? order by id desc limit 20";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1,id);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Item item = new Item();

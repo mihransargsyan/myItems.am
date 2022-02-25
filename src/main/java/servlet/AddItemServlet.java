@@ -43,7 +43,7 @@ public class AddItemServlet extends HttpServlet {
             }
         }
         itemManager.addItem(item);
-        resp.sendRedirect("/userHome");
+        resp.sendRedirect("/myItems");
     }
 
     private String getFileName(Part part) {
