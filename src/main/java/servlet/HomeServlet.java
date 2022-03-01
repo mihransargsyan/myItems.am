@@ -20,11 +20,19 @@ public class HomeServlet extends HttpServlet {
     private CategoryManager categoryManager = new CategoryManager();
 
     @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Item> allItems = itemManager.getAllItems();
-        req.setAttribute("allItems", allItems);
-        List<Category> allCategories = categoryManager.getAllCategories();
-        req.setAttribute("allCategories", allCategories);
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String catIdStr = req.getParameter("cat_id");
+        List<Item> items;
+        if (catIdStr == null || catIdStr.equals("")) {
+            items = itemManager.getLast20Items();
+        } else {
+            int catId = Integer.parseInt(catIdStr);
+            items = itemManager.getLast20ItemsByCategory(catId);
+        }
+        req.setAttribute("items", items);
+        req.setAttribute("categories", categoryManager.getAllCategories());
+
         req.getRequestDispatcher("/WEB-INF/home.jsp").forward(req, resp);
+
     }
 }

@@ -26,11 +26,11 @@ public class LoginServlet extends HttpServlet {
         UserManager userManager = new UserManager();
         User user = userManager.getByEmailAndPassword(email, password);
         if (user == null) {
-            req.getRequestDispatcher("/").forward(req, resp);
+            req.getRequestDispatcher("/home").forward(req, resp);
         } else {
             HttpSession session = req.getSession();
             session.setAttribute("user", user);
-            resp.sendRedirect("/userHome");
+            resp.sendRedirect("/home");
         }
     }
 }

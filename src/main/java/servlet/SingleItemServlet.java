@@ -3,7 +3,6 @@ package servlet;
 import manager.CategoryManager;
 import manager.ItemManager;
 import model.Item;
-import model.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,19 +10,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
-@WebServlet(urlPatterns = "/myItems")
-public class MyItemsServlet extends HttpServlet {
+@WebServlet(urlPatterns = "/singleItem")
+public class SingleItemServlet extends HttpServlet {
 
     private ItemManager itemManager = new ItemManager();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User user = (User) req.getSession().getAttribute("user");
-        List<Item> items = itemManager.getAllUserItems(user.getId());
-
-        req.setAttribute("items", items);
-        req.getRequestDispatcher("/WEB-INF/myItems.jsp").forward(req, resp);
+        int id = Integer.parseInt(req.getParameter("id"));
+        Item itemById = itemManager.getItemById(id);
+        if (itemById == null) {
+            resp.sendRedirect("/home");
+        } else {
+            req.setAttribute("item", itemById);
+            req.getRequestDispatcher("/WEB-INF/singleItem.jsp").forward(req, resp);
+        }
     }
+
 }

@@ -13,7 +13,7 @@ public class Item {
     private int id;
     private String title;
     private double price;
-    private int categoryID;
+    private Category category;
     private String picURL;
-    private int userID;
+    private User user;
 }

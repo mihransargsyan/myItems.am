@@ -12,13 +12,14 @@ public class UserManager {
     private Connection connection = DBConnectionProvider.getInstance().getConnection();
 
     public void addUser(User user) {
-        String sql = "INSERT INTO user(name,surname, email, password) VALUES(?,?,?,?)";
+        String sql = "INSERT INTO user(name,surname, phone, email, password) VALUES(?,?,?,?,?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, user.getName());
             statement.setString(2, user.getSurname());
-            statement.setString(3, user.getEmail());
-            statement.setString(4, user.getPassword());
+            statement.setString(3, user.getPhone());
+            statement.setString(4, user.getEmail());
+            statement.setString(5, user.getPassword());
             statement.executeUpdate();
             ResultSet rs = statement.getGeneratedKeys();
             if (rs.next()) {
@@ -91,8 +92,9 @@ public class UserManager {
                     .id(resultSet.getInt(1))
                     .name(resultSet.getString(2))
                     .surname(resultSet.getString(3))
-                    .email(resultSet.getString(4))
-                    .password(resultSet.getString(5))
+                    .phone(resultSet.getString(4))
+                    .email(resultSet.getString(5))
+                    .password(resultSet.getString(6))
                     .build();
         } catch (SQLException e) {
             e.printStackTrace();

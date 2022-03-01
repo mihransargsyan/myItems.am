@@ -2,19 +2,14 @@ package manager;
 
 import db.DBConnectionProvider;
 import model.Category;
-import model.Item;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryManager {
 
     private Connection connection = DBConnectionProvider.getInstance().getConnection();
-
 
     public List<Category> getAllCategories() {
         List<Category> categories = new ArrayList<>();
@@ -34,7 +29,7 @@ public class CategoryManager {
         return categories;
     }
 
-   public List<Category> getAllCategoryByUserId(int id) {
+    public List<Category> getAllCategoryByUserId(int id) {
         List<Category> categories = new ArrayList<>();
         String sql = "SELECT * FROM category WHERE id =" + id;
         try {
@@ -49,7 +44,24 @@ public class CategoryManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-       return categories;
+        return categories;
+    }
+
+    public Category getCategoryById(int id) {
+        String sql = "select * from category where id = " + id;
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            if (resultSet.next()) {
+                return Category.builder()
+                        .id(resultSet.getInt(1))
+                        .name(resultSet.getString(2))
+                        .build();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

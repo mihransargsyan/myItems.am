@@ -19,6 +19,6 @@ public class DeleteItemServlet extends HttpServlet {
         String idStr = req.getParameter("id");
         int id = Integer.parseInt(idStr);
         itemManager.deleteItemById(id);
-        resp.sendRedirect("/userHome");
+        resp.sendRedirect("/home");
     }
 }
